@@ -1,0 +1,77 @@
+.button {
+  z-index: 1000;
+  width: 150px;
+  height: 30px;
+  background-color: var(
+    --color-secondary-900
+  ); // Navy background instead of black
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  cursor: pointer;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  p {
+    display: none;
+    color: white; // Keep white text for good contrast
+    margin: 0px;
+    text-transform: uppercase;
+    transition: color 0.5s;
+  }
+
+  svg {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+    line {
+      stroke: var(--color-primary-500); // Gold/amber color for the lines
+      transition: stroke 0.5s;
+    }
+  }
+
+  .background {
+    background-color: var(
+      --color-primary-500
+    ); // Gold/amber background on hover
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    height: 0;
+    transition: height 0.3s;
+  }
+
+  &:hover {
+    p {
+      color: var(--color-secondary-900); // Navy text on hover for contrast
+    }
+    svg {
+      line {
+        stroke: var(--color-secondary-900); // Navy lines on hover
+      }
+    }
+    .background {
+      height: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .button {
+    height: 120px;
+    p {
+      display: block;
+    }
+  }
+}
