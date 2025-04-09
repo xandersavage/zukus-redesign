@@ -141,5 +141,3 @@ export function ServicesSection() {
     </section>
   );
 }
-
-// Service Card Component
