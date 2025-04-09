@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat, Source_Serif_4 } from "next/font/google";
 import Header from "@/components/header";
+import { Footer } from "@/components/footer";
 import "./globals.css";
 
 // Define fonts
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

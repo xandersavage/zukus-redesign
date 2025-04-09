@@ -7,36 +7,76 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
+  useSpring,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export function AboutImageGrid() {
   const containerRef = useRef(null);
   const [hoveredImage, setHoveredImage] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Enhanced scroll animations with more dynamic ranges
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  // More dramatic parallax effects
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  // Smoother spring animations
+  const springConfig = { stiffness: 100, damping: 30 };
+  const y1 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -80]),
+    springConfig
+  );
+  const y2 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -40]),
+    springConfig
+  );
+  const y3 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -100]),
+    springConfig
+  );
+  const y4 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -60]),
+    springConfig
+  );
 
-  // Add rotation for 3D effect
-  const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 3]);
-  const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -2]);
-  const rotate3 = useTransform(scrollYProgress, [0, 1], [0, 4]);
-  const rotate4 = useTransform(scrollYProgress, [0, 1], [0, -3]);
+  // Enhanced 3D effects
+  const rotate1 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 3]),
+    springConfig
+  );
+  const rotate2 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -2]),
+    springConfig
+  );
+  const rotate3 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 4]),
+    springConfig
+  );
+  const rotate4 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -3]),
+    springConfig
+  );
 
-  // Scale effects for depth
-  const scale1 = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.05, 1]);
-  const scale2 = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.03, 1]);
+  // Dynamic scale effects
+  const scale1 = useSpring(
+    useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.05, 1]),
+    springConfig
+  );
+  const scale2 = useSpring(
+    useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.03, 1]),
+    springConfig
+  );
 
-  // Define image data for cleaner rendering
   const images = [
     {
       id: 1,
@@ -45,6 +85,7 @@ export function AboutImageGrid() {
       className: "absolute top-0 left-0 w-3/4 h-3/5 p-2",
       motion: { y: y1, rotate: rotate1, scale: scale1 },
       caption: "Offshore Operations",
+      description: "Expert offshore solutions for the energy sector",
     },
     {
       id: 2,
@@ -53,6 +94,7 @@ export function AboutImageGrid() {
       className: "absolute top-0 right-0 w-1/3 h-2/5 p-2",
       motion: { y: y2, rotate: rotate2, scale: scale2 },
       caption: "Engineering Excellence",
+      description: "Innovative engineering at its finest",
     },
     {
       id: 3,
@@ -61,6 +103,7 @@ export function AboutImageGrid() {
       className: "absolute bottom-0 left-0 w-1/3 h-2/5 p-2",
       motion: { y: y3, rotate: rotate3, scale: scale1 },
       caption: "Cutting-Edge Equipment",
+      description: "State-of-the-art technology in action",
     },
     {
       id: 4,
@@ -69,15 +112,16 @@ export function AboutImageGrid() {
       className: "absolute bottom-0 right-0 w-3/5 h-2/5 p-2",
       motion: { y: y4, rotate: rotate4, scale: scale2 },
       caption: "Professional Team",
+      description: "Dedicated experts working together",
     },
   ];
 
   return (
     <div
       ref={containerRef}
-      className="relative h-[500px] md:h-[600px] rounded-xl overflow-hidden perspective-1000"
+      className="relative h-[500px] md:h-[600px] lg:h-[700px] rounded-xl overflow-hidden perspective-1000"
     >
-      {/* Decorative background elements */}
+      {/* Enhanced background effects */}
       <motion.div
         className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-primary-300/20 blur-3xl z-0"
         animate={{
@@ -105,10 +149,18 @@ export function AboutImageGrid() {
         }}
       />
 
-      {/* Render all images with enhanced effects */}
-      {images.map((image, index) => (
-        <div key={image.id} className={image.className}>
+      {/* Responsive image grid */}
+      <div
+        className={`grid ${
+          isMobile ? "grid-cols-1 gap-4" : "grid-cols-2 gap-2"
+        } h-full p-4`}
+      >
+        {images.map((image, index) => (
           <motion.div
+            key={image.id}
+            className={`relative ${
+              isMobile ? "h-48" : "h-full"
+            } rounded-lg overflow-hidden`}
             style={{
               y: image.motion.y,
               rotateZ: image.motion.rotate,
@@ -120,7 +172,6 @@ export function AboutImageGrid() {
               zIndex: 20,
               boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
             }}
-            className="w-full h-full relative rounded-lg overflow-hidden shadow-2xl transform transition-all duration-700 ease-out"
             onMouseEnter={() => setHoveredImage(image.id)}
             onMouseLeave={() => setHoveredImage(null)}
           >
@@ -135,12 +186,12 @@ export function AboutImageGrid() {
 
             {/* Enhanced gradient overlay */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-secondary-900/60 via-secondary-900/30 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-secondary-900/80 via-secondary-900/40 to-transparent"
               whileHover={{ opacity: 0.7 }}
               transition={{ duration: 0.3 }}
             />
 
-            {/* Caption that appears on hover */}
+            {/* Enhanced caption with description */}
             <AnimatePresence>
               {hoveredImage === image.id && (
                 <motion.div
@@ -148,17 +199,20 @@ export function AboutImageGrid() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-secondary-900/90 to-secondary-900/0"
+                  className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-secondary-900/90 to-secondary-900/0"
                 >
-                  <p className="text-white font-medium text-sm md:text-base">
+                  <h3 className="text-white font-bold text-lg md:text-xl mb-1">
                     {image.caption}
+                  </h3>
+                  <p className="text-white/80 text-sm md:text-base">
+                    {image.description}
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {/* Enhanced central emblem */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30">
@@ -176,16 +230,16 @@ export function AboutImageGrid() {
             boxShadow: "0 0 30px rgba(255,255,255,0.5)",
             rotateY: 10,
           }}
-          className="bg-white/90 backdrop-blur-md rounded-full w-28 h-28 md:w-36 md:h-36 flex items-center justify-center shadow-2xl border-2 border-primary-300/50 overflow-hidden"
+          className="bg-white/90 backdrop-blur-md rounded-full w-24 h-24 md:w-36 md:h-36 flex items-center justify-center shadow-2xl border-2 border-primary-300/50 overflow-hidden"
         >
           <motion.div
             className="text-center relative z-10"
             whileHover={{ scale: 1.1 }}
           >
-            <span className="block text-lg md:text-xl font-semibold text-secondary-900">
+            <span className="block text-sm md:text-xl font-semibold text-secondary-900">
               SINCE
             </span>
-            <span className="block text-2xl md:text-4xl font-bold text-primary-500 drop-shadow-sm">
+            <span className="block text-xl md:text-4xl font-bold text-primary-500 drop-shadow-sm">
               1987
             </span>
           </motion.div>
@@ -205,8 +259,8 @@ export function AboutImageGrid() {
         </motion.div>
       </div>
 
-      {/* Floating particles for additional visual interest */}
-      {[...Array(6)].map((_, i) => (
+      {/* Enhanced floating particles */}
+      {[...Array(8)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 rounded-full bg-primary-500/30 backdrop-blur-sm z-20"
