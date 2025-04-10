@@ -4,13 +4,14 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { ReactElement } from "react";
 
 export interface ServiceCardProps {
   service: {
     id: string;
     title: string;
     description: string;
-    icon: string;
+    icon: string | ReactElement;
     image: string;
     features: string[];
   };
@@ -46,7 +47,8 @@ export function ServiceCard({
           alt={service.title}
           fill
           className="object-cover transition-all duration-700 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={index < 2}
         />
         <div
           className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-500 ${
@@ -66,13 +68,17 @@ export function ServiceCard({
         transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
         className="absolute top-6 left-6 w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center z-2"
       >
-        <Image
-          src={service.icon}
-          alt=""
-          width={32}
-          height={32}
-          className="text-secondary-900"
-        />
+        {typeof service.icon === "string" ? (
+          <Image
+            src={service.icon}
+            alt=""
+            width={32}
+            height={32}
+            className="text-secondary-900"
+          />
+        ) : (
+          <div className="w-8 h-8 text-secondary-900">{service.icon}</div>
+        )}
       </motion.div>
 
       {/* Content */}

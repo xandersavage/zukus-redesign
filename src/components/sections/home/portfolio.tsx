@@ -6,44 +6,111 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, X, ExternalLink } from "lucide-react";
 
 // Portfolio data with different aspect ratios for visual interest
 const portfolioProjects = [
   {
     id: "project1",
-    image: "/images/projects1.jpg",
+    title: "Offshore Platform Maintenance",
+    image: "/images/portfolio/portfolio-1.jpg",
     category: "Offshore Operations",
-    aspectRatio: "aspect-[4/3]", // Standard
+    description:
+      "Comprehensive maintenance and inspection services for offshore platforms, ensuring optimal performance and safety standards.",
+    year: "2023",
+    location: "Gulf of Mexico",
+    aspectRatio: "aspect-[4/3]",
+    features: [
+      "Platform inspection",
+      "Safety compliance",
+      "Equipment maintenance",
+      "Environmental monitoring",
+    ],
   },
   {
     id: "project2",
-    image: "/images/project2.jpg",
+    title: "Slickline Intervention",
+    image: "/images/portfolio/portfolio-2.jpg",
     category: "Slickline Services",
-    aspectRatio: "aspect-[1/1]", // Square
+    description:
+      "Advanced slickline operations for well intervention and maintenance, utilizing cutting-edge technology and expertise.",
+    year: "2023",
+    location: "North Sea",
+    aspectRatio: "aspect-[1/1]",
+    features: [
+      "Well intervention",
+      "Tool deployment",
+      "Data acquisition",
+      "Safety protocols",
+    ],
   },
   {
     id: "project3",
-    image: "/images/projects1.jpg",
+    title: "Hot Oil Treatment",
+    image: "/images/portfolio/portfolio-3.jpg",
     category: "Hot Oil Operations",
-    aspectRatio: "aspect-[3/4]", // Portrait
+    description:
+      "Specialized hot oil treatment services for pipeline maintenance and flow assurance in challenging environments.",
+    year: "2023",
+    location: "West Africa",
+    aspectRatio: "aspect-[3/4]",
+    features: [
+      "Pipeline cleaning",
+      "Wax removal",
+      "Flow assurance",
+      "Temperature control",
+    ],
   },
   {
     id: "project4",
-    image: "/images/projects1.jpg",
+    title: "Marine Support Operations",
+    image: "/images/portfolio/portfolio-4.jpg",
     category: "Marine Services",
-    aspectRatio: "aspect-[16/9]", // Widescreen
+    description:
+      "Comprehensive marine support services including vessel operations, logistics, and offshore support.",
+    year: "2023",
+    location: "Southeast Asia",
+    aspectRatio: "aspect-[16/9]",
+    features: [
+      "Vessel operations",
+      "Cargo handling",
+      "Crew management",
+      "Safety compliance",
+    ],
   },
   {
     id: "project5",
-    image: "/images/projects1.jpg",
+    title: "Well Testing Campaign",
+    image: "/images/portfolio/portfolio-5.jpg",
     category: "Well-testing",
-    aspectRatio: "aspect-[4/3]", // Standard
+    description:
+      "Extensive well testing operations with advanced monitoring and data analysis capabilities.",
+    year: "2023",
+    location: "Middle East",
+    aspectRatio: "aspect-[4/3]",
+    features: [
+      "Pressure testing",
+      "Flow measurement",
+      "Data analysis",
+      "Report generation",
+    ],
   },
   {
     id: "project6",
-    image: "/images/projects1.jpg",
+    title: "Offshore Installation",
+    image: "/images/portfolio/portfolio-6.jpg",
     category: "Offshore Operations",
-    aspectRatio: "aspect-[1/1]", // Square
+    description:
+      "Complex offshore installation project involving multiple platforms and subsea infrastructure.",
+    year: "2023",
+    location: "North Sea",
+    aspectRatio: "aspect-[1/1]",
+    features: [
+      "Platform installation",
+      "Subsea infrastructure",
+      "Safety management",
+      "Quality control",
+    ],
   },
 ];
 
@@ -53,71 +120,78 @@ const categories = [
   ...new Set(portfolioProjects.map((p) => p.category)),
 ];
 
+// Visual transition effect when changing filters
+function FilterTransitionEffect({
+  activeCategory,
+}: {
+  activeCategory: string;
+}) {
+  return (
+    <motion.div
+      key={activeCategory}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      className="absolute inset-0 pointer-events-none"
+    >
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 1.2, opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="absolute inset-0 bg-primary-500/5 backdrop-blur-3xl opacity-20"
+      />
+    </motion.div>
+  );
+}
+
 export function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedProject, setSelectedProject] = useState<{
-    id: string;
-    image: string;
-    category: string;
-    aspectRatio: string;
-  } | null>(null);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [selectedProject, setSelectedProject] = useState<
+    (typeof portfolioProjects)[0] | null
+  >(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Filter projects based on selected category
   const filteredProjects =
     activeCategory === "All"
       ? portfolioProjects
-      : portfolioProjects.filter((p) => p.category === activeCategory);
+      : portfolioProjects.filter(
+          (project) => project.category === activeCategory
+        );
 
-  // Handle mouse move for cursor effect
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    setCursorPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
+  // Prevent scroll when modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [selectedProject]);
 
   return (
     <section
       ref={sectionRef}
       className="relative py-24 bg-secondary-900 overflow-hidden"
-      onMouseMove={handleMouseMove}
     >
-      {/* Custom cursor effect */}
-      <motion.div
-        className="hidden md:block fixed w-16 h-16 rounded-full bg-primary-500/30 backdrop-blur-md pointer-events-none z-50 mix-blend-screen"
-        style={{
-          left: cursorPosition.x - 32,
-          top: cursorPosition.y - 32,
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{
-          duration: 1.5,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
-      />
-
       {/* Background elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-primary-500/10 to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-primary-500/10 to-transparent"></div>
       </div>
 
-      <Container className="relative">
+      <Container>
         {/* Section heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-16 relative z-1"
         >
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
             Our <span className="text-primary-500">Portfolio</span>
@@ -134,7 +208,7 @@ export function PortfolioSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-3 mb-12 relative z-1"
         >
           {categories.map((category, index) => (
             <motion.button
@@ -160,7 +234,7 @@ export function PortfolioSection() {
         <LayoutGroup>
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-1"
           >
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
@@ -181,26 +255,14 @@ export function PortfolioSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-16 text-center"
+          className="mt-16 text-center relative z-1"
         >
           <Link
             href="/projects"
             className="inline-flex items-center px-8 py-4 bg-primary-500 text-secondary-900 rounded-full font-medium hover:bg-primary-400 transition-colors group"
           >
             <span>View All Projects</span>
-            <svg
-              className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M14 5l7 7m0 0l-7 7m7-7H3"
-              />
-            </svg>
+            <ArrowRight className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
       </Container>
@@ -218,13 +280,13 @@ export function PortfolioSection() {
   );
 }
 
-// Portfolio Item Component
+// Portfolio Item Component with enhanced animations
 function PortfolioItem({
   project,
   index,
   onClick,
 }: {
-  project: (typeof portfolioProjects)[number];
+  project: (typeof portfolioProjects)[0];
   index: number;
   onClick: () => void;
 }) {
@@ -232,26 +294,41 @@ function PortfolioItem({
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.05,
-        layout: { duration: 0.4, type: "spring" },
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          duration: 0.5,
+          delay: index * 0.1,
+          ease: [0.25, 0.1, 0.25, 1], // Custom easing function
+        },
       }}
-      whileHover={{ y: -10 }}
-      className={`${project.aspectRatio} relative overflow-hidden rounded-xl`}
+      exit={{
+        opacity: 0,
+        y: -20,
+        scale: 0.9,
+        transition: {
+          duration: 0.3,
+          ease: "easeInOut",
+        },
+      }}
+      whileHover={{
+        y: -10,
+        transition: { duration: 0.3, ease: "easeOut" },
+      }}
+      className={`${project.aspectRatio} relative overflow-hidden rounded-xl group cursor-pointer`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
+      layout
     >
       {/* Project image */}
       <div className="absolute inset-0 w-full h-full">
         <Image
           src={project.image}
-          alt={project.category}
+          alt={project.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className={`object-cover transition-all duration-700 ${
@@ -272,9 +349,30 @@ function PortfolioItem({
       {/* Content overlay */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end">
         {/* Category tag - always visible */}
-        <span className="inline-block px-3 py-1 mb-2 text-sm font-medium rounded-full bg-primary-500 text-secondary-900 w-fit">
+        <motion.span
+          initial={{ opacity: 0, x: -20 }}
+          animate={{
+            opacity: 1,
+            x: 0,
+            transition: { delay: 0.1 + index * 0.1, duration: 0.5 },
+          }}
+          className="inline-block px-3 py-1 mb-2 text-sm font-medium rounded-full bg-primary-500 text-secondary-900 w-fit"
+        >
           {project.category}
-        </span>
+        </motion.span>
+
+        {/* Project title */}
+        <motion.h3
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: { delay: 0.2 + index * 0.1, duration: 0.5 },
+          }}
+          className="text-xl font-bold text-white mb-2"
+        >
+          {project.title}
+        </motion.h3>
 
         {/* View details button - only on hover */}
         <AnimatePresence>
@@ -286,21 +384,9 @@ function PortfolioItem({
               transition={{ duration: 0.2 }}
               className="mt-4"
             >
-              <span className="inline-flex items-center text-white font-medium group cursor-pointer">
+              <span className="inline-flex items-center text-white font-medium group">
                 <span>View Details</span>
-                <svg
-                  className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
+                <ArrowRight className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
               </span>
             </motion.div>
           )}
@@ -308,9 +394,16 @@ function PortfolioItem({
       </div>
 
       {/* Decorative corner accent */}
-      <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          transition: { delay: 0.3 + index * 0.1, duration: 0.5 },
+        }}
+        className="absolute top-0 right-0 w-20 h-20 overflow-hidden"
+      >
         <div className="absolute transform rotate-45 bg-primary-500/30 backdrop-blur-sm w-28 h-28 -top-14 -right-14"></div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -320,17 +413,9 @@ function ProjectModal({
   project,
   onClose,
 }: {
-  project: (typeof portfolioProjects)[number];
+  project: (typeof portfolioProjects)[0];
   onClose: () => void;
 }) {
-  // Prevent scroll when modal is open
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -344,7 +429,7 @@ function ProjectModal({
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
         transition={{ type: "spring", damping: 25 }}
-        className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-secondary-800"
+        className="relative w-full max-w-6xl rounded-2xl overflow-hidden bg-secondary-800"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -352,26 +437,14 @@ function ProjectModal({
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
         >
-          <svg
-            className="w-6 h-6 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <X className="w-6 h-6 text-white" />
         </button>
 
         {/* Project image */}
-        <div className="relative w-full h-80 md:h-96">
+        <div className="relative w-full h-[500px]">
           <Image
             src={project.image}
-            alt={project.category}
+            alt={project.title}
             fill
             priority
             className="object-cover"
@@ -380,27 +453,40 @@ function ProjectModal({
         </div>
 
         {/* Project details */}
-        <div className="relative p-6 md:p-8">
-          <span className="inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full bg-primary-500 text-secondary-900">
-            {project.category}
-          </span>
+        <div className="p-8">
+          <div className="flex flex-wrap gap-4 mb-6">
+            <span className="px-3 py-1 text-sm font-medium rounded-full bg-primary-500 text-secondary-900">
+              {project.category}
+            </span>
+            <span className="px-3 py-1 text-sm font-medium rounded-full bg-white/10 text-white">
+              {project.year}
+            </span>
+            <span className="px-3 py-1 text-sm font-medium rounded-full bg-white/10 text-white">
+              {project.location}
+            </span>
+          </div>
 
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            {project.category} Project
+          <h3 className="text-3xl font-bold text-white mb-4">
+            {project.title}
           </h3>
 
-          <p className="text-white/70 mb-6">
-            This project demonstrates our expertise in{" "}
-            {project.category.toLowerCase()}
-            within the oil and gas industry. Our team provided innovative
-            solutions that met industry standards while delivering exceptional
-            results.
-          </p>
+          <p className="text-white/70 mb-8">{project.description}</p>
+
+          {/* Project features */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            {project.features.map((feature, index) => (
+              <div key={index} className="flex items-center text-white/80">
+                <div className="w-2 h-2 rounded-full bg-primary-500 mr-3"></div>
+                {feature}
+              </div>
+            ))}
+          </div>
 
           {/* Action buttons */}
           <div className="flex flex-wrap gap-4">
-            <button className="px-6 py-3 bg-primary-500 text-secondary-900 rounded-lg font-medium hover:bg-primary-400 transition-colors">
-              Full Case Study
+            <button className="px-6 py-3 bg-primary-500 text-secondary-900 rounded-lg font-medium hover:bg-primary-400 transition-colors flex items-center">
+              <span>View Case Study</span>
+              <ExternalLink className="ml-2 w-5 h-5" />
             </button>
             <button className="px-6 py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition-colors">
               Related Projects

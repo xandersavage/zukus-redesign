@@ -1,22 +1,33 @@
 // src/components/sections/home/services.tsx
 "use client";
 
+import React from "react";
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { ServiceCard } from "@/components/sections/home/service-card";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import Link from "next/link";
+import { Gauge, Flame, Anchor, LineChart } from "lucide-react";
+
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon: string | React.ReactElement;
+  image: string;
+  features: string[];
+}
 
 // Service data
-const services = [
+const services: Service[] = [
   {
     id: "slickline",
     title: "Slickline Services",
     description:
       "Precision downhole operations with advanced slickline technology for well maintenance and diagnostics.",
-    icon: "/images/projects1.jpg",
-    image: "/images/projects1.jpg",
+    icon: <Gauge className="w-8 h-8" />,
+    image: "/images/services/service-3.jpg",
     features: [
       "Depth correlation and tagging",
       "Fishing operations",
@@ -28,8 +39,8 @@ const services = [
     title: "Hot Oil/Pumping Operations",
     description:
       "Thermal treatment and high-pressure pumping services to maintain optimal well performance.",
-    icon: "/icons/hot-oil.svg",
-    image: "/images/services/hot-oil.jpg",
+    icon: <Flame className="w-8 h-8" />,
+    image: "/images/services/service-2.jpg",
     features: [
       "Paraffin removal",
       "High-pressure pumping",
@@ -41,8 +52,8 @@ const services = [
     title: "Marine Services",
     description:
       "Comprehensive offshore support with specialized vessels and equipment for marine operations.",
-    icon: "/icons/marine.svg",
-    image: "/images/services/marine.jpg",
+    icon: <Anchor className="w-8 h-8" />,
+    image: "/images/services/service-1.jpg",
     features: [
       "Offshore logistics",
       "Platform support",
@@ -54,8 +65,8 @@ const services = [
     title: "Well-testing Services",
     description:
       "Detailed analysis and monitoring of well performance using advanced testing methodologies.",
-    icon: "/icons/well-testing.svg",
-    image: "/images/services/well-testing.jpg",
+    icon: <LineChart className="w-8 h-8" />,
+    image: "/images/services/service-4.jpg",
     features: ["Flow measurement", "Pressure testing", "Reservoir evaluation"],
   },
 ];

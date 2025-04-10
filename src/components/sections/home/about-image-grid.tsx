@@ -80,7 +80,7 @@ export function AboutImageGrid() {
   const images = [
     {
       id: 1,
-      src: "/images/projects1.jpg",
+      src: "/images/portfolio/portfolio-1.jpg",
       alt: "Offshore Oil Rig",
       className: "absolute top-0 left-0 w-3/4 h-3/5 p-2",
       motion: { y: y1, rotate: rotate1, scale: scale1 },
@@ -89,7 +89,7 @@ export function AboutImageGrid() {
     },
     {
       id: 2,
-      src: "/images/contact1.jpg",
+      src: "/images/portfolio/portfolio-2.jpg",
       alt: "Engineers at Work",
       className: "absolute top-0 right-0 w-1/3 h-2/5 p-2",
       motion: { y: y2, rotate: rotate2, scale: scale2 },
@@ -98,7 +98,7 @@ export function AboutImageGrid() {
     },
     {
       id: 3,
-      src: "/images/contact2.jpg",
+      src: "/images/portfolio/portfolio-3.jpg",
       alt: "Specialized Equipment",
       className: "absolute bottom-0 left-0 w-1/3 h-2/5 p-2",
       motion: { y: y3, rotate: rotate3, scale: scale1 },
@@ -107,7 +107,7 @@ export function AboutImageGrid() {
     },
     {
       id: 4,
-      src: "/images/projects2.jpg",
+      src: "/images/portfolio/portfolio-4.jpg",
       alt: "Zukus Industries Team",
       className: "absolute bottom-0 right-0 w-3/5 h-2/5 p-2",
       motion: { y: y4, rotate: rotate4, scale: scale2 },
