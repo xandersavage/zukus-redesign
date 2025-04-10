@@ -318,13 +318,15 @@ export function Hero() {
             className="text-center md:text-left"
           >
             <h1 className="font-display text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
-              Innovative Solutions for the
-              <span className="text-primary-500"> Oil & Gas Industry</span>
+              <span className="text-primary-500">Zukus</span> Industries:
+              <br />
+              Pioneering Excellence in
+              <span className="text-primary-500"> Oil & Gas</span>
             </h1>
             <p className="mt-6 text-lg text-gray-300">
-              Providing quality, specialized, and efficient services to the oil
-              and gas industry since 1987. Trusted by leading companies
-              worldwide.
+              Leading the industry with innovative solutions and unmatched
+              expertise since 1987. Your trusted partner for comprehensive oil
+              and gas services worldwide.
             </p>
             <div className="mt-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 md:justify-start">
               <Button
