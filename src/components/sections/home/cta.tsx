@@ -590,7 +590,7 @@ export function CTASection() {
                 {/* Field Operations Image */}
                 <div className="relative h-[180px] w-full rounded-lg overflow-hidden mt-4">
                   <Image
-                    src="https://images.unsplash.com/photo-1585677828069-5456889c476f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    src="/images/hero/hero-3.webp"
                     alt="Zukus Industries Field Operations"
                     fill
                     className="object-cover"
