@@ -120,32 +120,6 @@ const categories = [
   ...new Set(portfolioProjects.map((p) => p.category)),
 ];
 
-// Visual transition effect when changing filters
-function FilterTransitionEffect({
-  activeCategory,
-}: {
-  activeCategory: string;
-}) {
-  return (
-    <motion.div
-      key={activeCategory}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-      className="absolute inset-0 pointer-events-none"
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 1.2, opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="absolute inset-0 bg-primary-500/5 backdrop-blur-3xl opacity-20"
-      />
-    </motion.div>
-  );
-}
-
 export function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState<
