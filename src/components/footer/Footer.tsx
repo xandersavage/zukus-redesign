@@ -97,7 +97,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Newsletter - FIXED SECTION */}
           <div>
             <h4 className="text-lg font-display font-semibold mb-4 text-primary-500">
               Newsletter
@@ -106,15 +106,16 @@ const Footer = () => {
               Subscribe to our newsletter for the latest updates and exclusive
               offers.
             </p>
-            <form className="flex gap-2">
+            {/* Fixed form with flex-wrap and responsive handling */}
+            <form className="flex flex-col sm:flex-row gap-2 w-full max-w-full">
               <input
                 type="email"
                 placeholder="Your email"
-                className="px-4 py-2 rounded-md bg-secondary-800 text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="px-4 py-2 rounded-md bg-secondary-800 text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full flex-1 min-w-0"
               />
               <button
                 type="submit"
-                className="px-4 py-2 bg-primary-500 text-secondary-900 rounded-md hover:bg-primary-400 transition-colors font-semibold"
+                className="px-4 py-2 bg-primary-500 text-secondary-900 rounded-md hover:bg-primary-400 transition-colors font-semibold whitespace-nowrap"
               >
                 Subscribe
               </button>

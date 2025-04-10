@@ -8,37 +8,43 @@ const menu = [
   {
     title: "Home",
     description: "Return to the main page",
-    images: ["hero/hero-1.webp", "hero/hero-2.webp"],
+    images: ["/images/hero/hero-1.jpg", "/images/hero/hero-2.jpg"],
   },
   {
     title: "About",
     description: "Learn about our company and values",
-    images: ["about/engineering-team.webp", "about/office-environment.webp"],
+    images: ["/images/hero/hero-1.jpg", "/images/hero/hero-2.jpg"],
   },
   {
     title: "Services",
     description: "Explore our comprehensive services",
-    images: ["services/service-1.webp", "services/service-2.webp"],
+    images: [
+      "/images/services/service-1.jpg",
+      "/images/services/service-2.jpg",
+    ],
   },
   {
     title: "HSES Policy",
     description: "Our commitment to Health, Safety, Environment, and Security",
-    images: ["about/engineering-team.webp", "about/office-environment.webp"],
+    images: ["/images/hero/hero-1.jpg", "/images/hero/hero-2.jpg"],
   },
   {
     title: "Gallery",
     description: "View our project portfolio and achievements",
-    images: ["portfolio/portfolio-1.webp", "portfolio/portfolio-2.webp"],
+    images: [
+      "/images/portfolio/portfolio-1.jpg",
+      "/images/portfolio/portfolio-2.jpg",
+    ],
   },
   {
     title: "Staff Email",
     description: "Access your company email account",
-    images: ["about/office-environment.webp", "about/engineering-team.webp"],
+    images: ["/images/hero/hero-1.jpg", "/images/hero/hero-2.jpg"],
   },
   {
     title: "Admin",
     description: "Administrative portal for authorized personnel",
-    images: ["about/office-environment.webp", "about/engineering-team.webp"],
+    images: ["/images/hero/hero-1.jpg", "/images/hero/hero-2.jpg"],
   },
 ];
 

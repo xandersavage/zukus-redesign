@@ -525,7 +525,7 @@ export function CTASection() {
                   {/* Email */}
                   <div className="bg-white p-4 rounded-lg border border-secondary-100 shadow-sm">
                     <div className="flex items-start">
-                      <div className="bg-primary-100 p-2 rounded-lg mr-3">
+                      <div className="bg-primary-100 p-2 rounded-lg mr-3 flex-shrink-0">
                         <svg
                           className="w-5 h-5 text-primary-600"
                           fill="none"
@@ -540,14 +540,14 @@ export function CTASection() {
                           />
                         </svg>
                       </div>
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <h3 className="text-sm font-medium text-secondary-900">
                           Email
                         </h3>
-                        <p className="text-sm text-secondary-600 mt-1">
+                        <p className="text-sm text-secondary-600 mt-1 break-all">
                           info@zukusindustries.com
                         </p>
-                        <p className="text-sm text-secondary-600">
+                        <p className="text-sm text-secondary-600 break-all">
                           support@zukusindustries.com
                         </p>
                       </div>
