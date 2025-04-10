@@ -1,5 +1,4 @@
 .menu {
-  // z-index: 1004;
   position: fixed;
   display: flex;
   z-index: 3;
@@ -7,15 +6,38 @@
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--color-secondary-900);
+
   .header {
     display: flex;
     justify-content: flex-end;
-    padding: 20px;
-    svg {
+    padding: 12px;
+
+    @media (min-width: 640px) {
+      padding: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 20px;
+    }
+
+    .closeIcon {
       cursor: pointer;
-      width: 100px;
-      height: 100px;
+      width: 40px;
+      height: 40px;
+
+      @media (min-width: 640px) {
+        width: 50px;
+        height: 50px;
+      }
+
+      @media (min-width: 1024px) {
+        width: 68px;
+        height: 68px;
+      }
+
       path {
+        stroke-width: 2px;
         transition: color 0.5s;
       }
 
@@ -26,12 +48,20 @@
       }
     }
   }
+
   .body {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     width: 100%;
+    max-height: 70vh;
+    overflow-y: auto; // Allow scrolling on very small screens
+
+    @media (min-width: 640px) {
+      max-height: 80vh;
+    }
+
     .el {
       border-top: 1px solid white;
       display: flex;
@@ -39,9 +69,20 @@
       cursor: pointer;
       perspective: 80vw;
       transform-origin: top;
+      padding: 8px 0;
+
+      @media (min-width: 640px) {
+        padding: 10px 0;
+      }
+
+      @media (min-width: 1024px) {
+        padding: 12px 0;
+      }
+
       &:last-of-type {
         border-bottom: 1px solid white;
       }
+
       &:hover {
         .outer {
           .container {
@@ -50,16 +91,34 @@
         }
       }
     }
+
     a,
     p {
       color: white;
       text-transform: uppercase;
-      font-size: 4vw;
-      line-height: 4.2vw;
+      font-size: 24px; // Base size for mobile
+      line-height: 1.2;
       font-weight: 400;
       margin: 0px;
       text-decoration: none;
+      padding: 12px 0;
+
+      @media (min-width: 640px) {
+        font-size: 28px;
+        padding: 14px 0;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 3.5vw;
+        line-height: 1.1;
+        padding: 16px 0;
+      }
+
+      @media (min-width: 1280px) {
+        font-size: 3vw;
+      }
     }
+
     .outer {
       display: flex;
       position: absolute;
@@ -68,6 +127,7 @@
       overflow: hidden;
       pointer-events: none;
       will-change: top;
+
       .inner {
         background-color: var(--color-primary-500);
         position: absolute;
@@ -76,6 +136,7 @@
         top: 100%;
         display: flex;
         will-change: top;
+
         .container {
           display: flex;
           align-items: center;
@@ -90,24 +151,44 @@
           &:nth-of-type(3) {
             transition-delay: -15s;
           }
+
           .imageContainer {
-            height: 6vw;
-            width: 16vw;
+            height: 80px;
+            width: 160px;
             position: relative;
             overflow: hidden;
-            border-radius: 3vw;
-            margin-left: 1vw;
-            margin-right: 1vw;
+            border-radius: 16px;
+            margin-left: 8px;
+            margin-right: 8px;
             display: flex;
+
+            @media (min-width: 640px) {
+              height: 100px;
+              width: 200px;
+              border-radius: 20px;
+              margin-left: 12px;
+              margin-right: 12px;
+            }
+
+            @media (min-width: 1024px) {
+              height: 6vw;
+              width: 16vw;
+              border-radius: 3vw;
+              margin-left: 1vw;
+              margin-right: 1vw;
+            }
+
             img {
               object-fit: cover;
             }
           }
+
           p {
             color: var(--color-secondary-900);
           }
         }
       }
+
       .background {
         background-color: var(--color-primary-500);
         position: absolute;
@@ -117,19 +198,34 @@
       }
     }
   }
+
   .footer {
     color: white;
     display: flex;
     justify-content: center;
     gap: 10px;
-    padding: 20px;
+    padding: 16px;
+
+    @media (min-width: 640px) {
+      padding: 20px;
+    }
 
     a {
-      font-size: 3vw;
+      font-size: 16px;
       border: 2px solid white;
-      padding: 0px 10px 0px 10px;
+      padding: 4px 12px;
       border-radius: 30px;
       cursor: pointer;
+
+      @media (min-width: 640px) {
+        font-size: 18px;
+        padding: 6px 14px;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 20px;
+        padding: 8px 16px;
+      }
     }
   }
 }
